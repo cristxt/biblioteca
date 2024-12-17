@@ -73,7 +73,7 @@ public class BookController {
     //he cambiado ResponseEntity<Book> por ResponseEntity<Object> para poder devolver tanto un objeto Book en el caso de éxito, como un mensaje String en caso de error, sin causar conflicto de tipos.
     public ResponseEntity<Object> updateBook(@PathVariable int id, @RequestBody Book updatedBook) {
         try {
-            Book updated = bookService.updatedBook(id, updatedBook);
+            Optional<Object> updated = bookService.updatedBook(id, updatedBook);
             return new ResponseEntity<>(updated, HttpStatus.OK);
         } catch (RuntimeException e) {
 
