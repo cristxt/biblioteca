@@ -16,58 +16,52 @@ public class BookService {
         this.bookRepository = bookRepository;
     }
 
+    // Encontrar libros
     public List<Book> getAll() {
         return bookRepository.findAll();
     }
 
-    public Book addBook(Book newBook) {
-        return bookRepository.save(newBook);
-    }
-
-    public void addBooks(List<Book> newBooks) {
-        bookRepository.saveAll(newBooks);
-    }
-    public void deleteBooks(int id){
-        bookRepository.deleteById(id);
-    }
-
-    public Optional<Book> findBook(int id){
-        return bookRepository.findById(id);
-
-    }
-    public Book updatedBook(int id, Book updatedBook){
-        //buscar producto por id
-        Optional<Book> foundBook = bookRepository.findById(id);
-
-        if(foundBook.isPresent()){
-            Book existingBook =foundBook.get();
-
-            //Actualizar los campos
-            existingBook.setTitle(updatedBook.getTitle());
-            existingBook.setDescription(updatedBook.getDescription());
-
-            //guarda el producto
-            return bookRepository.save(existingBook);
-        }
-
-        //Enviar mensaje al usuario
-        throw new RuntimeException("Product not found with id: " +id);
-    }
-
-
     public List<Book> findBooksByTitle(String title) {
         return bookRepository.findByTitleContainingIgnoreCase(title);
-
     }
 
     public List<Book> findBooksByAuthor(String author) {
         return bookRepository.findByAuthorContainingIgnoreCase(author);
-
     }
 
     public List<Book> findBooksByGenre(String genre) {
         return bookRepository.findByGenreContainingIgnoreCase(genre);
+    }
 
+    public Optional<Book> findBook(int id) {
+        return bookRepository.findById(id);
+    }
+
+    // Agregar libros
+    public List<Book> addBooks(List<Book> newBooks) {
+        return bookRepository.saveAll(newBooks);
+    }
+
+    // Actualizar libros
+    public Book updatedBook(int id, Book updatedBook) {
+        Optional<Book> foundBook = bookRepository.findById(id);
+
+        if (foundBook.isPresent()) {
+            Book existingBook = foundBook.get();
+
+            // Actualizar campos
+            existingBook.setTitle(updatedBook.getTitle());
+            existingBook.setDescription(updatedBook.getDescription());
+
+            return bookRepository.save(existingBook);
+        }
+
+        // Enviar mensaje si no se encuentra el libro
+        throw new RuntimeException("Book not found with id: " + id);
+    }
+
+    // Eliminar libros
+    public void deleteBooksById(List<Integer> ids) {
+        bookRepository.deleteAllById(ids);
     }
 }
-

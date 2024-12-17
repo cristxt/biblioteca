@@ -19,18 +19,18 @@ public class BookController {
         this.bookService = bookService;
     }
 
-    //Encontrar libros
+    // Encontrar libros
     @GetMapping
     public List<Book> getAllBooks() {
         return bookService.getAll();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Book> findBookById(@PathVariable int id){
-        Optional<Book> foundBook=bookService.findBook(id);
+    public ResponseEntity<Book> findBookById(@PathVariable int id) {
+        Optional<Book> foundBook = bookService.findBook(id);
 
-        if(foundBook.isPresent()){
-            return new ResponseEntity<>(foundBook.get(), HttpStatus.FOUND);
+        if (foundBook.isPresent()) {
+            return new ResponseEntity<>(foundBook.get(), HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
@@ -50,33 +50,32 @@ public class BookController {
         return bookService.findBooksByGenre(genre);
     }
 
-
-    //Crear un nuevo libro
-    @PostMapping("/books")
-    public ResponseEntity<Book> createBook(@RequestBody Book newBook) {
-        Book savedBook = bookService.addBook(newBook);
-        return new ResponseEntity<>(savedBook, HttpStatus.CREATED);
-    }
-    //eliminar libros
-    @DeleteMapping("/books/{id}")
-    public void deleteBooks(@PathVariable int id){
-        bookService.deleteBooks(id);
+    // Crear nuevos libros
+    @PostMapping
+    public ResponseEntity<List<Book>> createBooks(@RequestBody List<Book> newBooks) {
+        List<Book> savedBooks = bookService.addBooks(newBooks);
+        return new ResponseEntity<>(savedBooks, HttpStatus.CREATED);
     }
 
-
-
-    @PutMapping("/books/{id}")
-    public ResponseEntity<Book> updateBook(@PathVariable int id, @RequestBody Book updatedBook) {
-        Optional<Book> foundBook = bookService.findBook(id);
-
-        if (foundBook.isPresent()) {
-            Book updated = bookService.updatedBook(id, updatedBook);
-            return new ResponseEntity<>(updated, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    // Eliminar libros
+    @DeleteMapping
+    public ResponseEntity<String> deleteBooksById(@RequestBody List<Integer> ids) {
+        try {
+            bookService.deleteBooksById(ids);
+            return new ResponseEntity<>("Libro(s) eliminado(s) correctamente", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Error al eliminar los libros", HttpStatus.BAD_REQUEST);
         }
     }
 
+    // Actualizar libros
+    @PutMapping("/{id}")
+    public ResponseEntity<Book> updateBook(@PathVariable int id, @RequestBody Book updatedBook) {
+        try {
+            Book updated = bookService.updatedBook(id, updatedBook);
+            return new ResponseEntity<>(updated, HttpStatus.OK);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 }
-
-
