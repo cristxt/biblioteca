@@ -42,8 +42,8 @@ public class BookService {
         return bookRepository.saveAll(newBooks);
     }
 
-// actualizar libros
-    public Book updatedBook(int id, Book updatedBook) {
+    // actualizar libros
+    public Optional<Object> updatedBook(int id, Book updatedBook) {
         Optional<Book> foundBook = bookRepository.findById(id);
 
         if (foundBook.isPresent()) {
@@ -55,14 +55,15 @@ public class BookService {
             existingBook.setDescription(updatedBook.getDescription());
             existingBook.setGenre(updatedBook.getGenre());
 
-            return bookRepository.save(existingBook);
+            return Optional.of(bookRepository.save(existingBook));
         }
 
         return Optional.empty();
-    }
+    };
 
     // Eliminar libros
     public void deleteBooksById(List<Integer> ids) {
         bookRepository.deleteAllById(ids);
     }
 }
+
