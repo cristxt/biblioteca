@@ -70,12 +70,18 @@ public class BookController {
 
     // Actualizar libros
     @PutMapping("/{id}")
-    public ResponseEntity<Book> updateBook(@PathVariable int id, @RequestBody Book updatedBook) {
+    //he cambiado ResponseEntity<Book> por ResponseEntity<Object> para poder devolver tanto un objeto Book en el caso de éxito, como un mensaje String en caso de error, sin causar conflicto de tipos.
+    public ResponseEntity<Object> updateBook(@PathVariable int id, @RequestBody Book updatedBook) {
         try {
             Book updated = bookService.updatedBook(id, updatedBook);
             return new ResponseEntity<>(updated, HttpStatus.OK);
         } catch (RuntimeException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+            String errorMessage = "Libro con ID " + id + " no encontrado";
+            return new ResponseEntity<>(errorMessage, HttpStatus.NOT_FOUND);
         }
     }
+
+
+
 }

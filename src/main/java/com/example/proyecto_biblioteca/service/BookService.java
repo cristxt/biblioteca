@@ -42,22 +42,23 @@ public class BookService {
         return bookRepository.saveAll(newBooks);
     }
 
-    // Actualizar libros
+// actualizar libros
     public Book updatedBook(int id, Book updatedBook) {
         Optional<Book> foundBook = bookRepository.findById(id);
 
         if (foundBook.isPresent()) {
             Book existingBook = foundBook.get();
 
-            // Actualizar campos
             existingBook.setTitle(updatedBook.getTitle());
+            existingBook.setAuthor(updatedBook.getAuthor());
+            existingBook.setIsbn(updatedBook.getIsbn());
             existingBook.setDescription(updatedBook.getDescription());
+            existingBook.setGenre(updatedBook.getGenre());
 
             return bookRepository.save(existingBook);
         }
 
-        // Enviar mensaje si no se encuentra el libro
-        throw new RuntimeException("Book not found with id: " + id);
+        return Optional.empty();
     }
 
     // Eliminar libros
