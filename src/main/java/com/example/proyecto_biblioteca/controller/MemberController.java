@@ -17,65 +17,49 @@ public class MemberController {
     public MemberController(MemberService memberService) {
         this.memberService = memberService;
     }
-    //encontrar miembros
+
+    // Encontrar miembros
     @GetMapping("/members")
-    public List<Member> getAllMembers(){
+    public List<Member> getAllMembers() {
         return memberService.getAll();
     }
+
     @GetMapping("/members/{id}")
-    public ResponseEntity<Object> findMemberById(@PathVariable int id) {
-        Optional<Member> foundMember = memberService.findMember(id);
-
-        if (foundMember.isPresent()) {
-            return new ResponseEntity<>(foundMember.get(), HttpStatus.FOUND);
-        }
-
-        return new ResponseEntity<>("Miembro no encontrado", HttpStatus.NOT_FOUND);
+    public ResponseEntity<Member> findMemberById(@PathVariable int id) {
+        return memberService.findMember(id)
+                .map(member -> new ResponseEntity<>(member, HttpStatus.FOUND))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @GetMapping("/members/name/{name}")
-    public ResponseEntity<Object> findMemberByName(@PathVariable String name) {
-        Optional<Member> foundMember = memberService.findMember(name);
-
-        if (foundMember.isPresent()) {
-            return new ResponseEntity<>(foundMember.get(), HttpStatus.FOUND);
-        }
-
-        return new ResponseEntity<>("Miembro no encontrado", HttpStatus.NOT_FOUND);
+    public ResponseEntity<Member> findMemberByName(@PathVariable String name) {
+        return memberService.findMember(name)
+                .map(member -> new ResponseEntity<>(member, HttpStatus.FOUND))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
-    //crear miembros
 
+    // Crear miembros
     @PostMapping("/members")
     public ResponseEntity<List<Member>> createMembers(@RequestBody List<Member> newMembers) {
         List<Member> savedMembers = memberService.addMembers(newMembers);
         return new ResponseEntity<>(savedMembers, HttpStatus.CREATED);
     }
 
-    //update miembros
-
+    // Actualizar miembros
     @PutMapping("/members/{id}")
-    public ResponseEntity<Member> Member(@PathVariable int id, @RequestBody Member Member) {
-        Optional<Member> foundMember = memberService.findMember(id);
-
-        if (foundMember.isPresent()) {
-            Member updated = memberService.updatedMember(id, Member);
-            return new ResponseEntity<>(updated, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<Member> updateMember(@PathVariable int id, @RequestBody Member member) {
+        return memberService.findMember(id)
+                .map(foundMember -> {
+                    Member updated = memberService.updatedMember(id, member);
+                    return new ResponseEntity<>(updated, HttpStatus.OK);
+                })
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    //eliminar miembros
+    // Eliminar miembros
     @DeleteMapping("/members")
-    public ResponseEntity<String> deleteMembersById(@RequestBody List<Integer> id) {
-        try {
-            memberService.deleteMembersById(id);
-            return new ResponseEntity<>("Producto(s) eliminado(s) correctamente", HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>("Error al eliminar el producto", HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity<Void> deleteMembersById(@RequestBody List<Integer> id) {
+        memberService.deleteMembersById(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
-
 }
-
-

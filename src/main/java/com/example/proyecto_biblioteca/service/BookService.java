@@ -20,6 +20,7 @@ public class BookService {
     public List<Book> getAllBooks() {
         return bookRepository.findAll();
     }
+
     public List<Book> getBooksWithoutDescription() {
         List<Book> books = bookRepository.findAll();
         for (Book book : books) {
@@ -49,8 +50,7 @@ public class BookService {
         return bookRepository.saveAll(newBooks);
     }
 
-
-    // actualizar libros
+    // Actualizar libros
     public Optional<Object> updatedBook(int id, Book updatedBook) {
         Optional<Book> foundBook = bookRepository.findById(id);
 
@@ -67,14 +67,10 @@ public class BookService {
         }
 
         return Optional.empty();
-    };
+    }
 
     // Eliminar libros
     public void deleteBooksById(List<Integer> ids) {
         bookRepository.deleteAllById(ids);
     }
-
-
-
 }
-

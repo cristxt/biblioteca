@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/books")
@@ -32,12 +31,9 @@ public class BookController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Book> findBookById(@PathVariable int id) {
-        Optional<Book> foundBook = bookService.findBook(id);
-
-        if (foundBook.isPresent()) {
-            return new ResponseEntity<>(foundBook.get(), HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return bookService.findBook(id)
+                .map(book -> new ResponseEntity<>(book, HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @GetMapping("/title")
@@ -62,31 +58,21 @@ public class BookController {
         return new ResponseEntity<>(savedBooks, HttpStatus.CREATED);
     }
 
-    // Eliminar libros
-    @DeleteMapping
-    public ResponseEntity<String> deleteBooksById(@RequestBody List<Integer> ids) {
-        try {
-            bookService.deleteBooksById(ids);
-            return new ResponseEntity<>("Libro(s) eliminado(s) correctamente", HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>("Error al eliminar los libros", HttpStatus.BAD_REQUEST);
-        }
-    }
-
     // Actualizar libros
     @PutMapping("/{id}")
-    //he cambiado ResponseEntity<Book> por ResponseEntity<Object> para poder devolver tanto un objeto Book en el caso de éxito, como un mensaje String en caso de error, sin causar conflicto de tipos.
-    public ResponseEntity<Object> updateBook(@PathVariable int id, @RequestBody Book updatedBook) {
-        try {
-            Optional<Object> updated = bookService.updatedBook(id, updatedBook);
-            return new ResponseEntity<>(updated, HttpStatus.OK);
-        } catch (RuntimeException e) {
-
-            String errorMessage = "Libro con ID " + id + " no encontrado";
-            return new ResponseEntity<>(errorMessage, HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<Book> updateBook(@PathVariable int id, @RequestBody Book updatedBook) {
+        return bookService.findBook(id)
+                .map(book -> {
+                    Book updated = (Book) bookService.updatedBook(id, updatedBook).orElseThrow();
+                    return new ResponseEntity<>(updated, HttpStatus.OK);
+                })
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-
-
+    // Eliminar libros
+    @DeleteMapping
+    public ResponseEntity<Void> deleteBooksById(@RequestBody List<Integer> ids) {
+        bookService.deleteBooksById(ids);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
