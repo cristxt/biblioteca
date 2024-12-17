@@ -55,5 +55,19 @@ public class BookService {
     }
 
 
+    public List<Book> findBooksByTitle(String title) {
+        return bookRepository.findByTitleContainingIgnoreCase(title);
+
+    }
+
+    public List<Book> findBooksByAuthor(String author) {
+        return bookRepository.findByAuthorContainingIgnoreCase(author);
+
+    }
+
+    public List<Book> findBooksByGenre(String genre) {
+        return bookRepository.findByGenreContainingIgnoreCase(genre);
+
+    }
 }
 
