@@ -17,8 +17,15 @@ public class BookService {
     }
 
     // Encontrar libros
-    public List<Book> getAll() {
+    public List<Book> getAllBooks() {
         return bookRepository.findAll();
+    }
+    public List<Book> getBooksWithoutDescription() {
+        List<Book> books = bookRepository.findAll();
+        for (Book book : books) {
+            book.setDescription(null);
+        }
+        return books;
     }
 
     public List<Book> findBooksByTitle(String title) {
@@ -41,6 +48,7 @@ public class BookService {
     public List<Book> addBooks(List<Book> newBooks) {
         return bookRepository.saveAll(newBooks);
     }
+
 
     // actualizar libros
     public Optional<Object> updatedBook(int id, Book updatedBook) {
@@ -65,5 +73,8 @@ public class BookService {
     public void deleteBooksById(List<Integer> ids) {
         bookRepository.deleteAllById(ids);
     }
+
+
+
 }
 

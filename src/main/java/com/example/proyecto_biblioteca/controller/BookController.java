@@ -22,7 +22,12 @@ public class BookController {
     // Encontrar libros
     @GetMapping
     public List<Book> getAllBooks() {
-        return bookService.getAll();
+        return bookService.getAllBooks();
+    }
+
+    @GetMapping("/without-description")
+    public List<Book> getBooksWithoutDescription() {
+        return bookService.getBooksWithoutDescription();
     }
 
     @GetMapping("/{id}")
