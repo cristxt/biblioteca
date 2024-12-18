@@ -29,9 +29,11 @@ public class BookService {
         return books;
     }
 
-    public List<Book> findBooksByTitle(String title) {
-        return bookRepository.findByTitleContainingIgnoreCase(title);
+    public Optional<Book> findByTitleIgnoreCase(String title) {
+        return bookRepository.findByTitleIgnoreCase(title);
     }
+
+
 
     public List<Book> findBooksByAuthor(String author) {
         return bookRepository.findByAuthorContainingIgnoreCase(author);
@@ -73,4 +75,6 @@ public class BookService {
     public void deleteBooksById(List<Integer> ids) {
         bookRepository.deleteAllById(ids);
     }
+
+
 }
