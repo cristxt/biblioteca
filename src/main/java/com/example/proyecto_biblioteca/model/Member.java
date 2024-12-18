@@ -1,15 +1,24 @@
 package com.example.proyecto_biblioteca.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 @Entity
 @Table(name="members")
+@Getter
+@Setter
+@NoArgsConstructor
+
 public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,7 +38,9 @@ public class Member {
     @JsonSerialize(using = ActiveStatusSerializer.class)
     private Boolean isActive = true;
 
-
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<Loan> loans;
 
     public Member(String memberName, String memberSurname, String memberEmail, Boolean isActive) {
         this.memberName = memberName;
@@ -38,48 +49,9 @@ public class Member {
         this.isActive = isActive;
     }
 
-    public Member() {
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getMemberName() {
-        return memberName;
-    }
-
-    public void setMemberName(String memberName) {
-        this.memberName = memberName;
-    }
-
-    public String getMemberSurname() {
-        return memberSurname;
-    }
-
-    public void setMemberSurname(String memberSurname) {
-        this.memberSurname = memberSurname;
-    }
-
-    public String getMemberEmail() {
-        return memberEmail;
-    }
-
-    public void setMemberEmail(String memberEmail) {
-        this.memberEmail = memberEmail;
-    }
-
-
-    public Timestamp getRegistrationDate() {
-        return registrationDate;
-    }
-
-    public void setRegistrationDate(Timestamp registrationDate) {
-        this.registrationDate = registrationDate;
-    }
 }
+
+
+
+
 
