@@ -1,8 +1,12 @@
 package com.example.proyecto_biblioteca.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
 
-import java.time.LocalDate;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name="members")
@@ -11,31 +15,30 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "member_name")
     private String memberName;
-
-    @Column(name = "member_surname")
     private String memberSurname;
-
-    @Column(name = "member_email")
     private String memberEmail;
 
-    @Column(name = "registration_date")
-    private LocalDate registrationDate;
+    @CreationTimestamp
+    @JsonFormat(pattern = "dd-MM-yyyy HH'h'")
+    private Timestamp registrationDate;
 
-    @Column(name = "is_active", columnDefinition = "tinyint(1) default 1")
+
+    @Column(name = "Estado", columnDefinition = "tinyint(1) default 1")
+    @JsonProperty("Estado")
+    @JsonSerialize(using = ActiveStatusSerializer.class)
     private Boolean isActive = true;
 
 
-    public Member(String memberName, String memberSurname, String memberEmail, LocalDate registrationDate, Boolean isActive) {
+
+    public Member(String memberName, String memberSurname, String memberEmail, Boolean isActive) {
         this.memberName = memberName;
         this.memberSurname = memberSurname;
         this.memberEmail = memberEmail;
-        this.registrationDate = registrationDate;
         this.isActive = isActive;
     }
 
-    public Member(){
+    public Member() {
     }
 
     public int getId() {
@@ -70,19 +73,13 @@ public class Member {
         this.memberEmail = memberEmail;
     }
 
-    public LocalDate getRegistrationDate() {
+
+    public Timestamp getRegistrationDate() {
         return registrationDate;
     }
 
-    public void setRegistrationDate(LocalDate registrationDate) {
+    public void setRegistrationDate(Timestamp registrationDate) {
         this.registrationDate = registrationDate;
     }
-
-    public boolean isActive() {
-        return isActive;
-    }
-
-    public void setActive(boolean active) {
-        isActive = active;
-    }
 }
+
