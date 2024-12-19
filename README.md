@@ -2,7 +2,7 @@
 
 **Descripción del Proyecto**
 
-Este proyecto consiste en desarrollar una API REST para gestionar los datos de una biblioteca. La API permite realizar operaciones CRUD (Crear, Leer, Actualizar y Borrar) sobre libros, siguiendo las buenas prácticas de desarrollo backend. Adicionalmente, opcionalmente, se pueden gestionar miembros de la biblioteca y los préstamos de libros.
+Este proyecto consiste en desarrollar una API REST para gestionar los datos de una biblioteca. La API permite realizar operaciones CRUD (Crear, Leer, Actualizar y Borrar) sobre libros, siguiendo las buenas prácticas de desarrollo backend. Adicionalmente, opcionalmente, se ha desarrollado para que se puedan gestionar miembros de la biblioteca y los préstamos de libros.
 
 
 **Tecnologías Utilizadas**
