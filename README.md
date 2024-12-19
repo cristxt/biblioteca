@@ -19,7 +19,7 @@ Pruebas: Postman para probar los endpoints
 
 **Funcionalidades Principales**
 
-1. CRUD de Libros**
+1. CRUD de Libros
   
 - CREATE: añadir un libro a la base de datos.
 - READ: ver una lista de todos los libros que constan en la base de datos.
