@@ -3,6 +3,8 @@ package com.example.proyecto_biblioteca.controller;
 import com.example.proyecto_biblioteca.model.Loan;
 import com.example.proyecto_biblioteca.service.LoanService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
