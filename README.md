@@ -19,7 +19,7 @@ Pruebas: Postman para probar los endpoints
 
 **Funcionalidades Principales**
 
-* CRUD de Libros
+1. CRUD de Libros**
   
 - CREATE: añadir un libro a la base de datos.
 - READ: ver una lista de todos los libros que constan en la base de datos.
@@ -29,7 +29,7 @@ Pruebas: Postman para probar los endpoints
 - UPDATE: editar un libro de la base de datos.
 - DELETE: eliminar un libro de la base de datos.
 
-* CRUD de miembros
+2. CRUD de miembros
   
 - CREATE: añadir un miembro a la base de datos.
 - READ: ver una lista de todos los miembros que constan en la base de datos.
@@ -38,7 +38,7 @@ Pruebas: Postman para probar los endpoints
 - UPDATE: editar un miembro de la base de datos.
 - DELETE: eliminar un miembro de la base de datos.
 
-*2 CRUD de préstamos
+3. CRUD de préstamos
 
 - CREATE: Registrar un préstamo de un libro a un miembro.
 - READ: Consultar el historial de préstamos por miembro.
