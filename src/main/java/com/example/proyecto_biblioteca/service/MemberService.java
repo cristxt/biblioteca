@@ -52,7 +52,6 @@ public class MemberService {
     public void deleteMembersById(List<Integer> id) {
         List<Member> membersToDelete = memberRepository.findAllById(id);
         if (membersToDelete.size() != id.size()) {
-            // Se elimina el mensaje personalizado
             throw new RuntimeException();
         }
         memberRepository.deleteAll(membersToDelete);
