@@ -2,7 +2,14 @@
 
 ## Descripción del Proyecto
 
-Este proyecto consiste en desarrollar una API REST para gestionar los datos de una biblioteca. La API permite realizar operaciones CRUD (Crear, Leer, Actualizar y Borrar) sobre libros, siguiendo las buenas prácticas de desarrollo backend. Adicionalmente, opcionalmente, se ha desarrollado para que se puedan gestionar miembros de la biblioteca y los préstamos de libros.
+Este proyecto consiste en una API REST para la gestión de una biblioteca, desarrollado en Java utilizando Spring Boot y conectado a una base de datos MySQL. La API implementa operaciones CRUD para tres entidades principales: Libros, Miembros y Préstamos. Se diseñó siguiendo una arquitectura MVC, aplicando el patrón Repository para interactuar con la base de datos.
+
+## Objetivo del Proyecto
+El objetivo era implementar un sistema básico que permita:
+
+Gestionar libros con datos como título, autor, género y descripción.
+Registrar y manejar miembros de la biblioteca.
+Registrar préstamos de libros por parte de los miembros.
 
 
 ## Tecnologías Utilizadas
